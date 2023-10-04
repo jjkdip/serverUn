@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+ <html lang="id"> 
+<head>
+    <title>Dokumentasi API Website Down check </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Panduan penggunaan API Visitor: Mendaftarkan ID baru, melihat jumlah visitor harian, menambah visitor, dan lainnya.">
+    <link rel="icon" href="/logo.png" type="image/x-icon">
+    <!-- Tambahkan link Bootstrap CSS di sini -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/validator/13.6.0/validator.min.js"></script>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        header {
+            background-color: #eb4b85 !important;
+            color: rgb(255, 255, 69);
+            padding: 1px;
+            text-align: center;
+
+           opacity: 0; /* Atur opasitas awal ke 0 */
+    animation: fadeIn 1s ease-in-out forwards; 
+        }
+      
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        code {
+            font-family: monospace;
+            background-color: #f2f2f2;
+            padding: 2px 4px;
+            border: 1px solid #ddd;
+            font-size: 12px;
+        }
+
+  .container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 1s ease;
+    overflow: auto; /* Tambahkan overflow jika konten melebihi tinggi viewport */
+}
+
+        .note {
+            color: #777;
+            font-style: italic;
+        }
+
+       footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgb(255, 255, 69);
+    background-color: #eb4b85 !important;
+}
+
+        #custom-code {
+            background-color: #d9f1d9;
+            padding: 2px 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        /* Animasi fadeInUp */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+      @keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1; /* Akhiri dengan opasitas 1 */
+    }
+}
+
+      .status-icon {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    ext-align: center;
+    color: white; /* Warna hijau untuk ikon */
+}
+
+.status-icon i {
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+    hr {
+    border: 1px solid black; /* Border style, width, and color */
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h2 class="display-8">API Website Down check - Panduan Penggunaan</h2>
+         <div class="status-icon">
+        <i class="fas fa-sync-alt fa-spin"></i> Status Server: AKTIF 
+    </div>
+    </header>
+
+    <div class="container">
+        <!-- Tambahkan deskripsi endpoint lainnya di sini -->
+
+        <h1>Check Website Status Online / offline</h1>
+      <hr>
+    <h4>Cek Id sudah dipakai / belum</h4>
+        
+        <label for="id">ID:</label>
+        <input type="text" lass="form-control" id="id" required>
+    <button class="btn btn-primary" onclick="checkAvailability()">Check Id</button>
+    
+<hr>
+      <h4>Form Daftar Undangan Digital</h4>
+    <form action="/input" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+    <br>
+        <label for="id">ID:<p style="color:red;">Harap buat unik untuk identifikasi data masing" digunakan untuk penamaan web anda tanpa (spasi) tanda karakter seperti .(titik) ,(koma) dan lain" boleh menggunakan tanda - (kurang) ID tidak boleh sama jika ada yang memakai gunakan yang lain, silakan pakai fitur cek id diatas, Contoh : ari-silvi</p></label>
+        <input type="text" class="form-control" name="id" required>
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="password">Password (berfungsi untuk hapus data):</label>
+        <input type="text" class="form-control" name="password" required>
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="fotodepan">Foto Depan undangan (1 Foto):</label>
+        <input type="file" class="form-control-file" name="fotodepan">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="timertanggalnikah">Timer Tanggal Nikah: <p style="color:red;">Contoh: 3/10/2023</p></label>
+        <input type="text" class="form-control" name="timertanggalnikah">
+      </div>
+<hr>
+      <h3>Akad:</h3>
+
+      <div class="form-group">
+        <label for="akad.hari">Hari:<p style="color:red;">Contoh: Senin</p></label>
+        <input type="text" class="form-control" name="akad.hari">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="akad.tanggal">Tanggal:<p style="color:red;">Contoh: 1 Oktober 2023</p></label>
+        <input type="text" class="form-control" name="akad.tanggal">
+      </div>
+      <hr>
+      <div class="form-group">
+        <label for="akad.tanggal">Jam:<p style="color:red;">Contoh: 09:00 Pagi</p></label>
+        <input type="text" class="form-control" name="akad.jam">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="akad.alamat">Alamat:<p style="color:red;">Contoh: Jl. Palir Raya No.3 (dll)</p></label>
+        <input type="text" class="form-control" name="akad.alamat">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="akad.gmap">Google Maps:<p style="color:red;">Contoh link pin lokasi / Google Map : https://maps.app.goo.gl/3Vws8AomKnoM8d257</p></label>
+        <input type="text" class="form-control" name="akad.gmap">
+      </div>
+<hr>
+      <h3>Resepsi:</h3>
+
+      <div class="form-group">
+        <label for="resepsi.hari">Hari:<p style="color:red;">Contoh: Senin</p></label>
+        <input type="text" class="form-control" name="resepsi.hari">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="resepsi.tanggal">Tanggal:<p style="color:red;">Contoh: 1 Oktober 2023</p></label>
+        <input type="text" class="form-control" name="resepsi.tanggal">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="resepsi.alamat">Alamat:<p style="color:red;">Contoh: Jl. Palir Raya No.3 (dll)</p></label>
+        <input type="text" class="form-control" name="resepsi.alamat">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="resepsi.gmap">Google Maps:<p style="color:red;">Contoh link pin lokasi / Google Map : https://maps.app.goo.gl/3Vws8AomKnoM8d257</p></label>
+        <input type="text" class="form-control" name="resepsi.gmap">
+      </div>
+<hr>
+      <h3>Laki:</h3>
+      <div class="form-group">
+        <label for="laki.pangilan">Nama Panggilan: <p style="color:red;">Contoh: Ari</p></label>
+        <input type="text" class="form-control" name="laki.pangilan">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="laki.namalengkap">Nama Lengkap:</label>
+        <input type="text" class="form-control" name="laki.namalengkap">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="laki.anakke">Anak ke:<p style="color:red;">Contoh: Kedua</p></label>
+        <input type="text" class="form-control" name="laki.anakke">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="laki.bapak">Nama Lengkap Bapak:</label>
+        <input type="text" class="form-control" name="laki.bapak">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="laki.ibu">Nama Lengkap Ibu:</label>
+        <input type="text" class="form-control" name="laki.ibu">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="laki.foto">Foto Laki-Laki (1 Foto):</label>
+        <input type="file" class="form-control-file" name="laki.foto">
+      </div>
+<hr>
+      <h3>Perempuan:</h3>
+      <div class="form-group">
+        <label for="perempuan.pangilan">Nama Panggilan:</label>
+        <input type="text" class="form-control" name="perempuan.pangilan">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="perempuan.namalengkap">Nama Lengkap:</label>
+        <input type="text" class="form-control" name="perempuan.namalengkap">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="perempuan.anakke">Anak ke:<p style="color:red;">Contoh: Ketiga</p></label>
+        <input type="text" class="form-control" name="perempuan.anakke">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="perempuan.bapak">Nama Lengkap Bapak:</label>
+        <input type="text" class="form-control" name="perempuan.bapak">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="perempuan.ibu">Nama Lengkap Ibu:</label>
+        <input type="text" class="form-control" name="perempuan.ibu">
+      </div>
+<hr>
+      <div class="form-group">
+        <label for="perempuan.foto">Foto Perempuan (1 Foto):</label>
+        <input type="file" class="form-control-file" name="perempuan.foto">
+      </div>
+<hr>
+      <h3>Galery:</h3>
+      <div class="form-group">
+        <label for="galery">Gambar Galeri prewed dll (bisa lebih dari 1 gambar, hp: tekan lama untuk memilih file lebih dari 1 di galery), untuk pc Ctrl + klik file untuk memilih file lebih dari 1:</label>
+       <input type="file" name="galery" multiple>
+      </div>
+
+      <input type="submit" class="btn btn-primary" value="Simpan">
+    </form>
+ 
+    </div>
+   <div class="container">
+    <h1>Dokumentasi Endpoint Api </h1> <hr>
+  <h3>Menggunakan Endpoint GET /api</h3>
+        <p>Anda dapat menggunakan endpoint ini untuk mengecek apakah situs online / offline berdasarkan url tanpa https:// atau http://. Gunakan parameter query <code>url</code> untuk menentukan url website yang ingin di cek.</p>
+        <p>Contoh penggunaan:</p>
+        <code>https://webdowncheck.api.akuari.my.id/api?url=google.com</code>
+        <p>Respons:</p>
+        <pre id="custom-code">
+{
+  "success": true,
+  "website": "google.com",
+  "response": "Website is Up (Online)",
+  "date": "Selasa, 26 September 2023 pukul 9.48 PM WIB"
+}
+ </pre>
+        <!-- Tambahkan deskripsi endpoint lainnya di sini -->
+
+        <p class="note">Catatan: Pastikan untuk selalu menggunakan url yang valid untuk mengecek apakah situs offline / online.</p>
+
+
+
+
+ <!-- Bootstrap Modal cekid -->
+     <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultModalLabel"><p id="resultModalLabels"></p></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalResult"></p> <!-- Add this line -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+   </div>
+    <!-- Tambahkan link Bootstrap JS di sini -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <footer class="text-center py-2 mt-5">
+        &copy; 2023 API Website Down check Akuari.my.id
+    </footer>
+
+
+
+  <script>
+        function checkAvailability() {
+            const idInput = document.getElementById("id");
+            const resultElement = document.getElementById("result");
+
+            // Get the ID value entered by the user
+            const id = idInput.value;
+           if (id === "") {
+                alert("ID harus diini.");
+                return; // Prevent form submission
+            }
+          
+            const api_url = 'https://server-undangan.api.akuari.my.id/cekid?id=' + encodeURIComponent(id);
+  // Define modalResultElement
+            // Make a request to the API using fetch
+          
+            fetch(api_url)
+                .then(response => response.json())
+                .then(data => {
+
+                  const modalResultElement = document.getElementById("modalResult");
+                  const modalResulttElementaa = document.getElementById("resultModalLabels");
+                  
+                    if (data.status === "sudahada") {
+                        modalResultElement.innerHTML = `<font color="red">ID ${id} Sudah dipakai silahkan menggunakan yang lain tanpa spasi dan tanda baca, tanda baca hanya boleh menggunakan - (kurang) saja.</font>`;
+                      modalResulttElementaa.innerHTML = `Yahh`; 
+                      $('#resultModal').modal('show');
+                    } else {
+                        modalResultElement.innerHTML = `<font color="green">ID ${id} Bisa dipakai silahkan untuk melanjutkan pendaftaran, Selamat menikah Semoga Bahagia Selalu.</font>`;
+                      modalResulttElementaa.innerHTML = `Selamat`;
+                       $('#resultModal').modal('show');
+                    }
+                })
+                .catch(error => {
+                    modalResultElement.innerHTML = "Failed to fetch data from the API.";
+                  modalResulttElementaa.innerHTML = `Yahh`;
+                
+                 $('#resultModal').modal('show');
+                });
+        }
+    </script>
+
+
+   <script>
+        function checkAvailability() {
+            const idInput = document.getElementById("id");
+            const resultElement = document.getElementById("result");
+
+            // Get the ID value entered by the user
+            const id = idInput.value;
+           if (id === "") {
+                alert("ID harus diini.");
+                return; // Prevent form submission
+            }
+          
+            const api_url = 'https://server-undangan.api.akuari.my.id/cekid?id=' + encodeURIComponent(id);
+  // Define modalResultElement
+            // Make a request to the API using fetch
+          
+            fetch(api_url)
+                .then(response => response.json())
+                .then(data => {
+
+                  const modalResultElement = document.getElementById("modalResult");
+                  const modalResulttElementaa = document.getElementById("resultModalLabels");
+                  
+                    if (data.status === "sudahada") {
+                        modalResultElement.innerHTML = `<font color="red">ID ${id} Sudah dipakai silahkan menggunakan yang lain tanpa spasi dan tanda baca, tanda baca hanya boleh menggunakan - (kurang) saja.</font>`;
+                      modalResulttElementaa.innerHTML = `Yahh`; 
+                      $('#resultModal').modal('show');
+                    } else {
+                        modalResultElement.innerHTML = `<font color="green">ID ${id} Bisa dipakai silahkan untuk melanjutkan pendaftaran, Selamat menikah Semoga Bahagia Selalu.</font>`;
+                      modalResulttElementaa.innerHTML = `Selamat`;
+                       $('#resultModal').modal('show');
+                    }
+                })
+                .catch(error => {
+                    modalResultElement.innerHTML = "Failed to fetch data from the API.";
+                  modalResulttElementaa.innerHTML = `Yahh`;
+                
+                 $('#resultModal').modal('show');
+                });
+        }
+    </script>
+</body>
+</html>
